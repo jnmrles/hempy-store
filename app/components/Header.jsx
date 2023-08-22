@@ -151,8 +151,15 @@ const FALLBACK_HEADER_MENU = {
 };
 
 function activeLinkStyle({isActive, isPending}) {
-  return {
-    fontWeight: isActive ? 'bold' : '',
-    color: isPending ? 'grey' : 'black',
-  };
+  if (isActive) {
+    return {
+      fontWeight: isActive ? 'bold' : '',
+      color: isPending ? 'white' : '#22d3ee',
+    };
+  } else {
+    return {
+      fontWeight: isActive ? 'bold' : '',
+      color: isPending ? 'white' : 'white',
+    };
+  }
 }

@@ -2,6 +2,9 @@ import {defer} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
+import Hero from '~/components/Hero';
+import Features from '~/components/Features';
+import Accordion from '~/components/Accordian';
 
 export const meta = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -16,13 +19,52 @@ export async function loader({context}) {
   return defer({featuredCollection, recommendedProducts});
 }
 
+{
+  /* <FeaturedCollection collection={data.featuredCollection} /> */
+}
+
 export default function Homepage() {
   const data = useLoaderData();
   return (
-    <div className="home">
-      <FeaturedCollection collection={data.featuredCollection} />
+    <article className="home w-full">
+      <Hero />
+
       <RecommendedProducts products={data.recommendedProducts} />
-    </div>
+      <section className=" dark:bg-[#0B0c10] mt-2 h-[80vh]">
+        <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
+          <div className="font-light text-gray-300 sm:text-lg dark:text-gray-400">
+            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-white dark:text-white">
+              One Big <span className="text-[#22d3ee]">HEMPY</span> family
+            </h2>
+            <p className="mb-4">
+              Cannabis Product description Cannabis Product description Cannabis
+              Product description Cannabis Product description Cannabis Product
+              description Cannabis Product description Cannabis Product
+              description Cannabis Product description Cannabis Product
+              description
+            </p>
+            <p>
+              We are strategists, designers and developers. Innovators and
+              problem solvers. Small enough to be simple and quick.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-4 mt-8">
+            <img
+              className="w-full rounded-lg"
+              src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png"
+              alt="office content 1"
+            />
+            <img
+              className="mt-4 w-full lg:mt-10 rounded-lg"
+              src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png"
+              alt="office content 2"
+            />
+          </div>
+        </div>
+      </section>
+      <Features />
+      <Accordion />
+    </article>
   );
 }
 
@@ -45,8 +87,8 @@ function FeaturedCollection({collection}) {
 
 function RecommendedProducts({products}) {
   return (
-    <div className="recommended-products">
-      <h2>Recommended Products</h2>
+    <div className=" lg:mt-8 text-center  text-slate-200">
+      <h2 className="text-4xl mb-10">Recommended Products</h2>
       <Suspense fallback={<div>Loading...</div>}>
         <Await resolve={products}>
           {({products}) => (
@@ -123,7 +165,7 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
   }
   query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
-    products(first: 4, sortKey: UPDATED_AT, reverse: true) {
+    products(first: 6, sortKey: UPDATED_AT, reverse: true) {
       nodes {
         ...RecommendedProduct
       }
