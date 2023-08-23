@@ -30,8 +30,8 @@ export default function Homepage() {
       <Hero />
 
       <RecommendedProducts products={data.recommendedProducts} />
-      <section className=" dark:bg-[#0B0c10] mt-2 h-[80vh]">
-        <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
+      <section className=" dark:bg-[#0B0c10] mt-2 h-[60vh]">
+        <div className="gap-16 items-center py-18 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
           <div className="font-light text-gray-300 sm:text-lg dark:text-gray-400">
             <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-white dark:text-white">
               One Big <span className="text-[#22d3ee]">HEMPY</span> family
@@ -87,12 +87,12 @@ function FeaturedCollection({collection}) {
 
 function RecommendedProducts({products}) {
   return (
-    <div className=" lg:mt-8 text-center  text-slate-200">
-      <h2 className="text-4xl mb-10">Recommended Products</h2>
+    <div className=" lg:mt-20 text-center  text-slate-200">
+      <h2 className="text-4xl mb-14">Recommended Products</h2>
       <Suspense fallback={<div>Loading...</div>}>
         <Await resolve={products}>
           {({products}) => (
-            <div className="recommended-products-grid">
+            <div className="recommended-products-grid mt-4">
               {products.nodes.map((product) => (
                 <Link
                   key={product.id}
@@ -102,7 +102,7 @@ function RecommendedProducts({products}) {
                   <Image
                     data={product.images.nodes[0]}
                     aspectRatio="1/1"
-                    sizes="(min-width: 45em) 20vw, 50vw"
+                    sizes="(min-width: 50em) 15vw, 30vw"
                   />
                   <h4>{product.title}</h4>
                   <small>
@@ -165,7 +165,7 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
   }
   query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
-    products(first: 6, sortKey: UPDATED_AT, reverse: true) {
+    products(first: 4, sortKey: UPDATED_AT, reverse: true) {
       nodes {
         ...RecommendedProduct
       }
