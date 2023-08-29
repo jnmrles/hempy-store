@@ -5,6 +5,7 @@ import {Image, Money} from '@shopify/hydrogen';
 import Hero from '~/components/Hero';
 import Features from '~/components/Features';
 import Accordion from '~/components/Accordian';
+import {motion} from 'framer-motion';
 
 export const meta = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -30,13 +31,14 @@ export default function Homepage() {
       <Hero />
 
       <RecommendedProducts products={data.recommendedProducts} />
-      <section className=" dark:bg-[#0B0c10] mt-2 h-[60vh]">
+      {/* <Wind products={data.recommendedProducts} /> */}
+      <section className=" dark:bg-[#0B0c10] mt-2">
         <div className="gap-16 items-center py-18 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
           <div className="font-light text-gray-300 sm:text-lg dark:text-gray-400">
-            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-white dark:text-white">
+            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-white dark :text-white">
               One Big <span className="text-[#22d3ee]">HEMPY</span> family
             </h2>
-            <p className="mb-4">
+            <p className="mb-4 text-lg">
               Cannabis Product description Cannabis Product description Cannabis
               Product description Cannabis Product description Cannabis Product
               description Cannabis Product description Cannabis Product
@@ -48,7 +50,14 @@ export default function Homepage() {
               problem solvers. Small enough to be simple and quick.
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-4 mt-8">
+          <motion.div
+            initial={{opacity: 0}}
+            whileInView={{opacity: 1}}
+            viewport={{once: true}}
+            animate={{x: [0, 100, 0]}}
+            transition={{duration: 3}}
+            className="grid grid-cols-2 gap-4 mt-8"
+          >
             <img
               className="w-full rounded-lg"
               src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png"
@@ -59,7 +68,7 @@ export default function Homepage() {
               src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png"
               alt="office content 2"
             />
-          </div>
+          </motion.div>
         </div>
       </section>
       <Features />
@@ -87,23 +96,29 @@ function FeaturedCollection({collection}) {
 
 function RecommendedProducts({products}) {
   return (
-    <div className=" lg:mt-20 text-center  text-slate-200">
+    <div className=" lg:mt-20 text-center bg-white text-slate-200">
       <h2 className="text-4xl mb-14">Recommended Products</h2>
       <Suspense fallback={<div>Loading...</div>}>
         <Await resolve={products}>
           {({products}) => (
-            <div className="recommended-products-grid mt-4">
+            <div className="flex overflow-x-scroll p-6 pb-10 hide-scroll-bar mt-4 justify-around">
               {products.nodes.map((product) => (
                 <Link
                   key={product.id}
-                  className="recommended-product"
+                  className="
+h-[25rem] w-[20rem]  rounded-xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 recommended-product border-indigo-500 border-4 flex-col p-8 items-center text-white shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out flex flex-nowrap  "
                   to={`/products/${product.handle}`}
                 >
                   <Image
                     data={product.images.nodes[0]}
-                    aspectRatio="1/1"
-                    sizes="(min-width: 50em) 15vw, 30vw"
+                    aspectRatio="4/5"
+                    sizes="(max-width: 10em)"
+                    className="recommended-product "
                   />
+                  {/* <img
+                    src={product.images.nodes[0].url}
+                    className="recommended-product "
+                  /> */}
                   <h4>{product.title}</h4>
                   <small>
                     <Money data={product.priceRange.minVariantPrice} />
@@ -115,6 +130,50 @@ function RecommendedProducts({products}) {
         </Await>
       </Suspense>
       <br />
+    </div>
+  );
+}
+
+function Wind(props) {
+  return (
+    <div class="flex flex-col bg-white m-auto p-auto">
+      <h1 class="flex py-5 lg:px-20 md:px-10 px-5 lg:mx-40 md:mx-20 mx-5 font-bold text-4xl text-gray-800">
+        Example
+      </h1>
+      <div class="flex overflow-x-scroll pb-10 hide-scroll-bar">
+        <Suspense fallback={<div>Loading...</div>}>
+          <Await resolve={props.products}>
+            {({products}) => {}}
+            <div class="flex flex-nowrap lg:ml-40 md:ml-20 ml-10 ">
+              <div class="inline-block px-3">
+                <div class="w-64 h-64 max-w-xs overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out"></div>
+              </div>
+              <div class="inline-block px-3">
+                <div class="w-64 h-64 max-w-xs overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out"></div>
+              </div>
+              <div class="inline-block px-3">
+                <div class="w-64 h-64 max-w-xs overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out"></div>
+              </div>
+              <div class="inline-block px-3">
+                <div class="w-64 h-64 max-w-xs overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out"></div>
+              </div>
+              <div class="inline-block px-3">
+                <div class="w-64 h-64 max-w-xs overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out"></div>
+              </div>
+              <div class="inline-block px-3">
+                <div class="w-64 h-64 max-w-xs overflow-hidden rounded-lg shadow-md bg-black hover:shadow-xl transition-shadow duration-300 ease-in-out"></div>
+              </div>
+              <div class="inline-block px-3">
+                <div class="w-64 h-64 max-w-xs overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out"></div>
+              </div>
+              <div class="inline-block px-3">
+                <div class="w-64 h-64 max-w-xs overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out"></div>
+              </div>
+            </div>
+            ;
+          </Await>
+        </Suspense>
+      </div>
     </div>
   );
 }
@@ -165,7 +224,7 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
   }
   query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
-    products(first: 4, sortKey: UPDATED_AT, reverse: true) {
+    products(first: 6, sortKey: UPDATED_AT, reverse: true) {
       nodes {
         ...RecommendedProduct
       }

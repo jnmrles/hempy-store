@@ -1,6 +1,6 @@
 export default function Features() {
   return (
-    <section className=" h-[100%] sm:mt-8">
+    <section className=" h-[100%] sm:mt-[10rem]">
       <div className="p-8">
         <div className="flex felx-col items-center justify-center">
           <span className="rounded-full bg-indigo-500 px-2 py-1 text-white uppercase text-sm">
@@ -148,3 +148,57 @@ export default function Features() {
     </section>
   );
 }
+
+const FEATURED_COLLECTION_QUERY = `#graphql
+  fragment FeaturedCollection on Collection {
+    id
+    title
+    image {
+      id
+      url
+      altText
+      width
+      height
+    }
+    handle
+  }
+  query FeaturedCollection($country: CountryCode, $language: LanguageCode)
+    @inContext(country: $country, language: $language) {
+    collections(first: 1, sortKey: UPDATED_AT, reverse: true) {
+      nodes {
+        ...FeaturedCollection
+      }
+    }
+  }
+`;
+
+const RECOMMENDED_PRODUCTS_QUERY = `#graphql
+  fragment RecommendedProduct on Product {
+    id
+    title
+    handle
+    priceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+    images(first: 1) {
+      nodes {
+        id
+        url
+        altText
+        width
+        height
+      }
+    }
+  }
+  query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
+    @inContext(country: $country, language: $language) {
+    products(first: 4, sortKey: UPDATED_AT, reverse: true) {
+      nodes {
+        ...RecommendedProduct
+      }
+    }
+  }
+`;
